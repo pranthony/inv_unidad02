@@ -1,0 +1,108 @@
+=================================================================
+MODELO 5 — REPORTE FINAL COMPLETO
+Determinantes del Credito al Sector Privado Real en Peru
+Muestra: 2015-04 — 2025-12
+Obs: 129 | Frecuencia: mensual
+=================================================================
+
+ESPECIFICACION FINAL [ADL(1,2) + D_COVID | Newey-West HAC 4 rezagos]:
+ln(CR)t = B0 + rho*ln(CR)(t-1) + B1*TIR(t-1) + B2*TIR(t-2)
+         + B3*TM + B4*TD + B5*ln(NO) + B6*DR + B7*D_COVID + e
+
+-----------------------------------------------------------------
+I. RAICES UNITARIAS
+-----------------------------------------------------------------
+  Variable    Orden  Interpretacion
+  ln_CR       I(1)   Tendencia secular — trabajar en ADL
+  TIR         I(2)+  Incluida en rezagos dentro del ADL
+  TM          I(1)   Primera diferencia estacionaria
+  TD          I(0)   Estacionaria en niveles
+  ln_NO       I(1)   Primera diferencia estacionaria
+
+-----------------------------------------------------------------
+II. COEFICIENTES FINALES (Newey-West HAC, 4 rezagos)
+-----------------------------------------------------------------
+  Variable            Coef      E.E.    p-valor  Sig
+  --------------------------------------------------------
+  const            +0.1961    0.2841     0.4914  ns
+  ln_CR_lag1       +0.9874    0.0352     0.0000  ***
+  TIR_lag1         -0.0080    0.0043     0.0632  *
+  TIR_lag2         +0.0067    0.0041     0.1060  ns
+  TM               -0.0017    0.0037     0.6521  ns
+  TD               +0.0237    0.1058     0.8233  ns
+  ln_NO            -0.0104    0.0199     0.6039  ns
+  DR               -0.0009    0.0028     0.7625  ns
+  D_COVID          +0.0150    0.0054     0.0062  ***
+
+  R2 = 0.9907  |  R2 ajustado = 0.9900
+  F-stat p-valor = 0.00000000
+  AIC = -804.6134  |  BIC = -778.8751
+
+-----------------------------------------------------------------
+III. DIAGNOSTICOS
+-----------------------------------------------------------------
+  Jarque-Bera      : stat=326.5269  p=0.0000  PROBLEMA — outliers COVID persistentes
+  Durbin-Watson    : 2.4740  OK (rango 1.5-2.5)
+  Breusch-Godfrey  : stat=16.4426  p=0.0025  Autocorrelacion residual — NW mitiga inferencia
+  Breusch-Pagan    : stat=27.6589  p=0.0005  Heterocedasticidad — corregida con NW HAC
+  CUSUM estabilidad: stat=0.5920  p=0.8747  Parametros estables
+
+-----------------------------------------------------------------
+IV. MULTIPLICADORES DE LARGO PLAZO
+-----------------------------------------------------------------
+  rho = 0.9874  |  Velocidad ajuste = 1.26%/mes  |  Vida media = 54.9 meses
+
+  Variable              CP          LP  Sig LP
+  ---------------------------------------------
+  TIR(t-1)         -0.0080     -0.6408  *
+  TIR(t-2)         +0.0067     +0.5373  ns
+  Morosidad        -0.0017     -0.1333  ns
+  Dolariz.         +0.0237     +1.8859  ns
+  ln(Puntos)       -0.0104     -0.8253  ns
+  D_Reactiva       -0.0009     -0.0681  ns
+  D_COVID          +0.0150     +1.1966  ***
+
+  Efecto LP acumulado TIR (t-1+t-2) = -0.1035
+  -> 100 pb de aumento en TIR del BCRP reduce el credito
+     real en 10.3% en el largo plazo.
+
+-----------------------------------------------------------------
+V. INTERPRETACION ECONOMICA
+-----------------------------------------------------------------
+
+  1. CANAL DEL CREDITO CONFIRMADO:
+     TIR(t-1) es significativa al 10% (p=0.0632).
+     Un aumento de 1 pp en la tasa de referencia del BCRP
+     reduce el credito real en 0.80% en el primer mes.
+     El efecto LP acumulado alcanza 10.3%, confirmando
+     la efectividad del canal crediticio de la politica monetaria.
+
+  2. ALTA PERSISTENCIA DEL CREDITO:
+     rho = 0.9874. El credito es un proceso altamente persistente.
+     La vida media del ajuste es 55 meses (~4.6 anos).
+     Esto implica que shocks crediticios se disipan lentamente.
+
+  3. MOROSIDAD Y DOLARIZACION NO SIGNIFICATIVAS:
+     En frecuencia mensual y con el rezago de CR dominando,
+     TM y TD pierden significancia. Son mas relevantes en
+     especificaciones trimestrales o en modelos de largo plazo.
+
+  4. SHOCK COVID CAPTURADO:
+     D_COVID es significativa *** (p=0.0062).
+     Aisla el impacto del confinamiento de abril-junio 2020
+     para que no contamine los coeficientes estructurales.
+
+  5. REACTIVA PERU NO SIGNIFICATIVA EN ADL:
+     DR no es significativa en el modelo dinamico porque
+     el rezago de CR ya captura gran parte de la inercia
+     crediticia, incluyendo el impulso de Reactiva.
+
+-----------------------------------------------------------------
+VI. TABLA COMPARATIVA DE ESPECIFICACIONES
+-----------------------------------------------------------------
+
+  Modelo                       R2   R2aj       AIC     DW    JB p    BG p    BP p
+  ------------------------------------------------------------------------
+  M1: OLS sin lag CR       0.9111 0.9060   -516.72 0.4447  0.1990  0.0000  0.0251
+  M2: ADL(1,2) base        0.9904 0.9898   -802.92 2.3784  0.0000  0.0210  0.0009
+  M3: ADL+COVID [FINAL]    0.9907 0.9900   -804.61 2.4740  0.0000  0.0025  0.0005

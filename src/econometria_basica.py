@@ -1,33 +1,31 @@
 # importar librerias
 import pandas as pd
 import matplotlib.pyplot as plt
+import statsmodels.api as sm
 
 # cargar datos
-data = pd.read_csv('data/processed/bonos_verdes.csv')
+
+# datos desde google drive 
+url = "https://docs.google.com/spreadsheets/d/16Tp3jetE_DNAN-yDG0XHxljK3uYY9xpjbb6zPEtQ4d8/export?format=csv"
+data = pd.read_csv(url)
 
 # mostrar los primeros registros
-print(data.head())
+#print(data.head())
 
 # mostrar información general del dataframe
-print(data.describe())
+# print(data.describe())
 
-plt.scatter( data['Sorpresa_Inflacion_X1'], data['Retorno_BonoVerde_Y'])
-plt.xlabel('Sorpresa Inflacion')
-plt.ylabel('Retorno Bono Verde')
-plt.title('Relación entre Sorpresa Inflacion y Retorno Bono Verde')
-plt.show()
+# inicializar datos
+y = data['Crecimiento_Y']
 
-# prepar datos
-X = data['Sorpresa_Inflacion_X1']
-y = data['Retorno_BonoVerde_Y']
+# que todas las variables independientes esten en un mismo dataframe
+x = data[['Regulacion_X1', 'Bolsa_Sost_X2', 'Token_Burn_X3', 'Sentimiento_X4']]
 
-# agregar constante para el modelo de regresión
-import statsmodels.api as sm
-X = sm.add_constant(X)
+# agregar una constante a las variables independientes
+x = sm.add_constant(x)
 
-# ajustar modelo de regresión lineal
-model = sm.OLS(y, X).fit()
+# ajustar el modelo de regresión lineal multiple
+model = sm.OLS(y, x).fit()
 
-# mostrar resumen del modelo
+# mostrar el resumen del modelo
 print(model.summary())
-
