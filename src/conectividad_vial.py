@@ -709,6 +709,6 @@ r = section_block(ws4, "HIPÓTESIS DE LA INVESTIGACIÓN", [
 ws2.freeze_panes = "A5"
 
 # ── SAVE ──────────────────────────────────────────────────────────────────
-out = "Tema1_DesnutricionVial_Huanuco.xlsx"
+out = "data/processed/Tema1_DesnutricionVial_Huanuco.xlsx"
 wb.save(out)
 print("Saved:", out)

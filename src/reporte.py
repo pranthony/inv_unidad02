@@ -213,7 +213,7 @@ for (row, col), cell in tbl.get_celld().items():
         cell.set_facecolor('#DCFCE7' if txt == '✓' else ('#FEE2E2' if txt == '✗' else 'white'))
 ax7.set_title('Diagnósticos del modelo', fontweight='bold', fontsize=9)
 
-plt.savefig('panel_completo_modelo5.png', dpi=150, bbox_inches='tight')
+plt.savefig('data/processed/panel_completo_modelo5.png', dpi=150, bbox_inches='tight')
 plt.close()
 print("\nPanel completo guardado.")
 
@@ -314,13 +314,13 @@ for nm, m in [("M1: OLS sin lag CR", sm.OLS(df_orig['ln_CR'].values, X_orig).fit
     lines.append(f"  {nm:<24} {m.rsquared:>6.4f} {m.rsquared_adj:>6.4f} {m.aic:>9.2f} "
                  f"{dw_:>6.4f} {float(jb_.pvalue):>7.4f} {float(bg_[1]):>7.4f} {float(bp_[1]):>7.4f}")
 
-with open('reporte_final.txt', 'w', encoding='utf-8') as f:
+with open('data/processed/reporte_final.txt', 'w', encoding='utf-8') as f:
     f.write("\n".join(lines))
 
 print("Reporte final guardado.")
 print(f"\nARCHIVOS GENERADOS:")
-print(f"  1. reporte_final.txt")
-print(f"  2. panel_completo_modelo5.png")
-print(f"  3. diagnosticos_residuos.png")
-print(f"  4. coeficientes_modelo5.png")
-print(f"  5. serie_ajustada_modelo5.png")
+print(f"  1. data/processed/reporte_final.txt")
+print(f"  2. data/processed/panel_completo_modelo5.png")
+print(f"  3. data/processed/diagnosticos_residuos.png")
+print(f"  4. data/processed/coeficientes_modelo5.png")
+print(f"  5. data/processed/serie_ajustada_modelo5.png")
